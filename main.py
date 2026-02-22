@@ -30,8 +30,15 @@ s3 = boto3.client(
 def health():
     return {"status": "ok"}
 
+from fastapi import Header
+
 @app.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload_file(
+    file: UploadFile = File(...),
+    x_api_key: str = Header(None)
+):
+    if x_api_key != os.getenv("PRIVATE_KEY"):
+        raise HTTPException(status_code=401, detail="Unauthorized")
     data = await file.read()
     key = f"{uuid.uuid4()}_{file.filename}"
 
