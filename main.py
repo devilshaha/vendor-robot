@@ -54,3 +54,19 @@ async def upload(file: UploadFile = File(...)):
         "file": file.filename,
         "analysis": response.choices[0].message.content
     }
+from fastapi.responses import HTMLResponse
+
+@app.get("/")
+def home():
+    return HTMLResponse("""
+    <html>
+        <body>
+            <h2>Vendor Robot – Upload Document</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file"/>
+                <br/><br/>
+                <button type="submit">Upload</button>
+            </form>
+        </body>
+    </html>
+    """)
