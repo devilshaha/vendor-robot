@@ -9,4 +9,4 @@ pyjwt
 httpx
 boto3
 pypdf
-openai
+openai==0.28
